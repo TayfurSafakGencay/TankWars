@@ -1,4 +1,6 @@
-﻿using strange.extensions.mediation.impl;
+﻿using Contexts.Main.Enum;
+using strange.extensions.dispatcher.eventdispatcher.api;
+using strange.extensions.mediation.impl;
 using UnityEngine;
 
 namespace Contexts.Main.View.Tank.Controller
@@ -10,6 +12,18 @@ namespace Contexts.Main.View.Tank.Controller
 
     public override void OnRegister()
     {
+      dispatcher.AddListener(MainEvent.CameraSet, OnCameraSet);
+    }
+
+    private void Start()
+    {
+      dispatcher.Dispatch(MainEvent.PlayerCreated, gameObject);
+    }
+
+    private void OnCameraSet(IEvent payload)
+    {
+      Camera cam = (Camera)payload.data;
+      view.Camera = cam;
     }
 
     private void Update()
@@ -35,7 +49,7 @@ namespace Contexts.Main.View.Tank.Controller
     {
       Ray screenRay = view.Camera.ScreenPointToRay(Input.mousePosition);
 
-      if (!Physics.Raycast(screenRay, out RaycastHit hit)) return;
+      if (!Physics.Raycast(screenRay, out RaycastHit hit, Mathf.Infinity, view.layerMask)) return;
       
       view.ReticlePosition = hit.point;
       view.ReticleNormal = hit.normal;
@@ -75,6 +89,7 @@ namespace Contexts.Main.View.Tank.Controller
     
     public override void OnRemove()
     {
+      dispatcher.RemoveListener(MainEvent.CameraSet, OnCameraSet);
     }
   }
 }

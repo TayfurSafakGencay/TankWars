@@ -11,7 +11,7 @@ namespace Contexts.Main.View.Tank.Controller
     public float RotationalSpeed;
     
     [Header("Input Properties")]
-    public UnityEngine.Camera Camera;
+    public Camera Camera;
 
     [HideInInspector]
     public Vector3 ReticlePosition;
@@ -31,15 +31,14 @@ namespace Contexts.Main.View.Tank.Controller
     public Transform ReticleTransform;
 
     public Transform TurretTransform;
+    
+    public LayerMask layerMask;
 
     protected override void Start()
     {
+      base.Start();
+      
       Rb = gameObject.GetComponent<Rigidbody>();
-    }
-
-    public void WheelAnimation()
-    {
-      // Dot
     }
   }
 }

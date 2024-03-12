@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Contexts.Main.Enum;
 using UnityEngine;
 
 namespace Contexts.Main.View.Tank.Bullet
@@ -42,6 +43,11 @@ namespace Contexts.Main.View.Tank.Bullet
 
     private void OnTriggerEnter(Collider other)
     {
+      if (other.gameObject.layer == 7)
+        return;
+      // if (other.gameObject.CompareTag(Tags.Projectile.ToString()))
+      //   return;
+      
       gameObject.SetActive(false);
     }
 
