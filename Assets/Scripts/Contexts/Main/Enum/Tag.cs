@@ -1,6 +1,6 @@
 ﻿namespace Contexts.Main.Enum
 {
-  public enum Tags
+  public enum Tag
   {
     Projectile
   }
