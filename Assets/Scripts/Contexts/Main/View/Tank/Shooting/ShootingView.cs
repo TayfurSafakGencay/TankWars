@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Contexts.Main.View.Particle;
 using DG.Tweening;
 using strange.extensions.mediation.impl;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Contexts.Main.View.Tank.Shooting
     
     public Transform MuzzleCannon;
     
-    public int BulletCount = 40;
+    public int BulletCount = 80;
     
     [HideInInspector]
     public List<GameObject> BulletPool;
@@ -25,11 +26,14 @@ namespace Contexts.Main.View.Tank.Shooting
     [HideInInspector]
     public int Queue;
     
-    [HideInInspector]
-    public float ShootTime = 0.7f;
+    // [HideInInspector]
+    public float ShootTime = 0f;
     
     [HideInInspector]
     public float RemainTimeToShoot;
+
+    [HideInInspector]
+    public ParticlePoolManagerBehaviour ParticlePoolManagerBehaviour;
 
     protected override void Start()
     {

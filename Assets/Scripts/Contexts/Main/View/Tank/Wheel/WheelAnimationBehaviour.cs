@@ -1,6 +1,7 @@
 ﻿using Contexts.Main.Enum;
 using Contexts.Main.View.Tank.Controller;
 using UnityEngine;
+using Animation = Contexts.Main.Enum.Animation;
 
 namespace Contexts.Main.View.Tank.Wheel
 {
@@ -19,11 +20,11 @@ namespace Contexts.Main.View.Tank.Wheel
     {
       if (TankControllerView.ForwardInput > 0)
       {
-        Animator.SetFloat(Animations.Speed, TankControllerView.ForwardInput);
+        Animator.SetFloat(Animation.Speed, TankControllerView.ForwardInput);
       }
       else
       {
-        Animator.SetTrigger(Animations.WheelStop);
+        Animator.SetTrigger(Animation.WheelStop);
       }
     }
   }

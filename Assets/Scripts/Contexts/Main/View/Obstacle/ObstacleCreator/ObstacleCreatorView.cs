@@ -7,7 +7,7 @@ namespace Contexts.Main.View.Obstacle.ObstacleCreator
 {
   public class ObstacleCreatorView : EventView
   {
-    public Vector3 SpawnArea = new(100, 0, 100);
+    public Vector3 SpawnArea = new(50, 0, 100);
 
     public List<ObstacleFactory> Factories;
 

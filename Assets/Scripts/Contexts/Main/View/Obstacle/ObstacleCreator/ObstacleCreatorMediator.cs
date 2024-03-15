@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections;
 using strange.extensions.mediation.impl;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -16,12 +16,7 @@ namespace Contexts.Main.View.Obstacle.ObstacleCreator
 
     private void Start()
     {
-      int obstacleCount = Random.Range(45, 75);
-
-      for (int i = 0; i < obstacleCount; i++)
-      {
-        CreateObstacle();
-      }
+      StartCoroutine(WaitStart());
     }
 
     private void CreateObstacle()
@@ -43,6 +38,18 @@ namespace Contexts.Main.View.Obstacle.ObstacleCreator
       
       int obstacleType = Random.Range(0, view.Factories.Count);
       view.Factories[obstacleType].CreateObstacle(randomPosition);
+    }
+
+    private IEnumerator WaitStart()
+    {
+      yield return new WaitForSeconds(0.25f);
+      
+      int obstacleCount = Random.Range(45, 75);
+
+      for (int i = 0; i < obstacleCount; i++)
+      {
+        CreateObstacle();
+      }
     }
 
     public override void OnRemove()

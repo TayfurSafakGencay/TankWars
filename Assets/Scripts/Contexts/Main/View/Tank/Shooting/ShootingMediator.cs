@@ -1,6 +1,7 @@
 ﻿using System;
 using Contexts.Main.Enum;
 using Contexts.Main.View.Tank.Bullet;
+using Contexts.Main.Vo;
 using strange.extensions.dispatcher.eventdispatcher.api;
 using strange.extensions.mediation.impl;
 using UnityEngine;
@@ -24,9 +25,13 @@ namespace Contexts.Main.View.Tank.Shooting
 
     private void OnReturnBulletPool(IEvent payload)
     {
-      Transform bulletPool = (Transform)payload.data;
+      if (view.BulletsParent)
+        return;
+      
+      ShootVo shootVo = (ShootVo)payload.data;
 
-      view.BulletsParent = bulletPool;
+      view.BulletsParent = shootVo.BulletPool;
+      view.ParticlePoolManagerBehaviour = shootVo.ParticlePoolManagerBehaviour;
       
       Transform muzzleTransform = view.Muzzle.transform;
       
@@ -46,15 +51,17 @@ namespace Contexts.Main.View.Tank.Shooting
       
       view.RemainTimeToShoot -= Time.deltaTime;
       
-      if (view.RemainTimeToShoot >= 0) return;
       if (!Input.GetKey(KeyCode.Mouse0)) return;
+      
+      if (view.RemainTimeToShoot >= 0) return;
       
       view.RemainTimeToShoot = view.ShootTime;
       view.BulletPool[view.Queue].SetActive(true);
       view.Queue++;
       view.ShootAnimation();
+      view.ParticlePoolManagerBehaviour.PlayParticleEffect(view.Muzzle.position, VFX.Shooting);
       
-      if (view.Queue != 20) return;
+      if (view.Queue != view.BulletCount) return;
       view.Queue = 0;
     }
 

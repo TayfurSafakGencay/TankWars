@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Contexts.Main.Enum;
 using UnityEngine;
 
 namespace Contexts.Main.View.Tank.Bullet
@@ -47,7 +46,7 @@ namespace Contexts.Main.View.Tank.Bullet
         return;
       // if (other.gameObject.CompareTag(Tags.Projectile.ToString()))
       //   return;
-      
+      Rigidbody.velocity = Vector3.zero;
       gameObject.SetActive(false);
     }
 

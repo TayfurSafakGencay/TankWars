@@ -15,9 +15,9 @@ namespace Contexts.Main.View.Obstacle.Obstacle
 
     private void OnTriggerEnter(Collider other)
     {
-      if (other.gameObject.CompareTag(Tags.Projectile.ToString()))
+      if (other.gameObject.CompareTag(Tag.Projectile.ToString()))
       {
-        IObstacle.OnHitProjectile();
+        IObstacle.OnHitProjectile(other.gameObject.transform.position);
       }
     }
   }

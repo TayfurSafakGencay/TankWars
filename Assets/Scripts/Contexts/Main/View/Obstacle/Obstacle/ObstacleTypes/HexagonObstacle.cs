@@ -19,8 +19,14 @@ namespace Contexts.Main.View.Obstacle.Obstacle.ObstacleTypes
     private int floorCount;
 
     private int hitCount;
+    
+    private Vector3 objectPosition;
+    
     public void Initialize()
     {
+      objectPosition = transform.position;
+      objectPosition.y = 0.5f;
+      
       obstacleFactoryManagerMediator = transform.parent.parent.GetComponent<ObstacleFactoryManagerMediator>();
       colorSet = obstacleFactoryManagerMediator.GetColorSet();
       
@@ -50,7 +56,7 @@ namespace Contexts.Main.View.Obstacle.Obstacle.ObstacleTypes
       return material;
     }
     
-    public void OnHitProjectile()
+    public void OnHitProjectile(Vector3 position)
     {
       hitCount++;
 
@@ -61,9 +67,13 @@ namespace Contexts.Main.View.Obstacle.Obstacle.ObstacleTypes
       transform.DOScaleZ(1.15f, 0.2f).SetEase(Ease.OutBack).OnComplete(() => 
         transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.InBack));
       
-      if (hitCount < floorCount) return;
+      if (hitCount < floorCount)
+      {
+        obstacleFactoryManagerMediator.OnHitObstacle(position);
+        return;
+      }
       
-      obstacleFactoryManagerMediator.ObstacleDestroyed(floorCount);
+      obstacleFactoryManagerMediator.ObstacleDestroyed(floorCount, objectPosition);
       gameObject.SetActive(false);
     }
   }

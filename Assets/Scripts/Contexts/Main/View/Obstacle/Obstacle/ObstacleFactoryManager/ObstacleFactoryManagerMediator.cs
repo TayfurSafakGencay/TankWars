@@ -23,10 +23,17 @@ namespace Contexts.Main.View.Obstacle.Obstacle.ObstacleFactoryManager
       return mainModel.ColorList[Random.Range(0, 3)];
     }
 
-    public void ObstacleDestroyed(int floorCount)
+    public void OnHitObstacle(Vector3 position)
+    {
+      view.ParticlePoolManagerBehaviour.PlayParticleEffect(position, VFX.HitObstacle);
+    }
+
+    public void ObstacleDestroyed(int floorCount, Vector3 position)
     {
       mainModel.AddCoin(floorCount); 
       
+      view.ParticlePoolManagerBehaviour.PlayParticleEffect(position, VFX.DestroyObstacle);
+
       dispatcher.Dispatch(MainEvent.ObstacleDestroyed);
     }
 
