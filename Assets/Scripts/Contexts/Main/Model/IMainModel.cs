@@ -5,12 +5,16 @@ namespace Contexts.Main.Model
 {
   public interface IMainModel
   {
+    Dictionary<int, List<Color>> ColorList { get; set; }
+
     void StartGame();
 
     void AddCoin(int coin);
 
     int GetCoin();
 
-    Dictionary<int, List<Color>> ColorList { get; set; }
+    void NextStage();
+    
+    int GetStage();
   }
 }

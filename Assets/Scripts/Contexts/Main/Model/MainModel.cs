@@ -8,13 +8,17 @@ namespace Contexts.Main.Model
 {
   public class MainModel : IMainModel
   {
-    private int Coin { get; set; }
     public Dictionary<int, List<Color>> ColorList { get; set; }
+
+    private int _coin { get; set; }
+
+    private int _stage { get; set; }
 
     [PostConstruct]
     private void OnPostConstruct()
     {
       ColorList = new Dictionary<int, List<Color>>();
+      _stage = 0;
     }
     
     public void StartGame()
@@ -26,12 +30,22 @@ namespace Contexts.Main.Model
 
     public void AddCoin(int coin)
     {
-      Coin += coin;
+      _coin += coin;
     }
 
     public int GetCoin()
     {
-      return Coin;
+      return _coin;
+    }
+
+    public void NextStage()
+    {
+      _stage++;
+    }
+
+    public int GetStage()
+    {
+      return _stage;
     }
     
     public void FillColorList(AsyncOperationHandle<ObstacleColor> handle)
