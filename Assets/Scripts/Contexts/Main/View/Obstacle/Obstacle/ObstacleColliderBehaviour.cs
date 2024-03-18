@@ -1,5 +1,4 @@
-﻿using System;
-using Contexts.Main.Enum;
+﻿using Contexts.Main.Enum;
 using UnityEngine;
 
 namespace Contexts.Main.View.Obstacle.Obstacle

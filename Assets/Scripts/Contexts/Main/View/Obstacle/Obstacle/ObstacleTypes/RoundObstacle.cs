@@ -1,73 +1,116 @@
 ﻿using System.Collections.Generic;
 using Contexts.Main.View.Obstacle.Obstacle.ObstacleFactoryManager;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Contexts.Main.View.Obstacle.Obstacle.ObstacleTypes
 {
   public class RoundObstacle : MonoBehaviour, IObstacle
   {
     [SerializeField]
-    private GameObject roundObstacle;
-    
+    private GameObject obstacle;
+
     [SerializeField]
     private Material materialPrefab;
+
+    [SerializeField]
+    private TextMeshProUGUI _countText;
+
+    [SerializeField]
+    private Transform _countTextObject;
 
     private List<Color> colorSet;
 
     private ObstacleFactoryManagerMediator obstacleFactoryManagerMediator;
-    
+
     private int floorCount;
 
-    private int hitCount;
+    private int _health;
+
+    private Vector3 objectPosition;
+
     public void Initialize()
     {
+      objectPosition = transform.position;
+      objectPosition.y = 0.5f;
+
       obstacleFactoryManagerMediator = transform.parent.parent.GetComponent<ObstacleFactoryManagerMediator>();
       colorSet = obstacleFactoryManagerMediator.GetColorSet();
-      
+
       floorCount = Random.Range(5, 10);
+      _health = floorCount;
       Vector3 position = new(0, 0, 0);
       Quaternion rotation = new(0, 0, 0, 0);
 
       for (int i = 0; i < floorCount; i++)
       {
         Material newMaterial = CreateMaterial(i);
-        GameObject roundObstacleInstantiate = Instantiate(roundObstacle, position, rotation, transform);
-        roundObstacleInstantiate.transform.localPosition = position;
-        roundObstacleInstantiate.GetComponent<MeshRenderer>().material = newMaterial;
+        GameObject instantiate = Instantiate(obstacle, position, rotation, transform);
+        instantiate.transform.localPosition = position;
+        instantiate.GetComponent<MeshRenderer>().material = newMaterial;
         position.y++;
-        rotation.eulerAngles += new Vector3(0, 3, 0);
+        rotation.eulerAngles += new Vector3(0, 5, 0);
+
+        if (i != floorCount - 1) continue;
+
+        _countTextObject.parent = instantiate.transform;
+        _countTextObject.localPosition = new Vector3(1f, -4.4f, 1f);
       }
+
+      _countText.text = floorCount.ToString();
+      _countTextObject.parent = transform;
+
+      StartAnimation();
     }
 
     private Material CreateMaterial(int index)
     {
       Material material = new(materialPrefab);
       Color color = colorSet[index];
-      
+
       // material.SetColor("_EmissiveColor", color * 0.5f);
       material.color = color;
-      
+
       return material;
     }
-    
-    public void OnHitProjectile()
+
+    public void OnHitProjectile(Vector3 position)
     {
-      hitCount++;
+      _health--;
+      _countText.text = _health.ToString();
 
-      transform.position -= new Vector3(0, 1, 0);
-      
-      // transform.DOScaleX(1.25f, 0.2f).OnComplete(() => { transform.DOScaleX(1f, 0.1f); });
-      // transform.DOScaleZ(1.25f, 0.2f).OnComplete(() => { transform.DOScaleY(1f, 0.1f); });
-      transform.DOScaleX(1.15f, 0.2f).SetEase(Ease.OutBack).OnComplete(() => 
-        transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.InBack));
-      transform.DOScaleZ(1.15f, 0.2f).SetEase(Ease.OutBack).OnComplete(() => 
-        transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.InBack));
+      HitAnimation();
 
-      if (hitCount < floorCount) return;
-      
-      obstacleFactoryManagerMediator.ObstacleDestroyed(floorCount);
+      if (_health > 0)
+      {
+        obstacleFactoryManagerMediator.OnHitObstacle(position);
+        return;
+      }
+
+      obstacleFactoryManagerMediator.ObstacleDestroyed(floorCount, objectPosition);
       gameObject.SetActive(false);
+    }
+
+    private void StartAnimation()
+    {
+      transform.DOScale(1.2f, 0.2f).SetEase(Ease.OutBack).OnComplete(() =>
+        transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.InBack));
+    }
+
+    private void HitAnimation()
+    {
+      Transform objectTransform = transform;
+
+      objectTransform.position -= new Vector3(0, 1, 0);
+
+      objectTransform.DOScaleX(1.2f, 0.2f).SetEase(Ease.OutBack).OnComplete(() =>
+        objectTransform.DOScale(Vector3.one, 0.1f).SetEase(Ease.InBack));
+      objectTransform.DOScaleZ(1.2f, 0.2f).SetEase(Ease.OutBack).OnComplete(() =>
+        objectTransform.DOScale(Vector3.one, 0.1f).SetEase(Ease.InBack));
+      objectTransform.DORotate(objectTransform.eulerAngles + new Vector3(0f, 10, 0f), 0.1f);
+      _countTextObject.transform.localRotation = Quaternion.Inverse(transform.rotation);
     }
   }
 }
