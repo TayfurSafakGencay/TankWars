@@ -17,11 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: e834864a376acb548a2f87c098b100d5
   m_SerializeEntries:
-  - m_GUID: bbce6dbca0367794cbe66597c2485308
-    m_Address: ObstacleFactory
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5d2002cd5dfe5044fb5a85a91efb0b34
     m_Address: Player
     m_ReadOnly: 0
