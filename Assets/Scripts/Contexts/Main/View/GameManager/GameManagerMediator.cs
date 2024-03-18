@@ -1,5 +1,7 @@
-﻿using Contexts.Main.Enum;
+﻿using System;
+using Contexts.Main.Enum;
 using Contexts.Main.Model;
+using Contexts.Main.Vo;
 using strange.extensions.mediation.impl;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -14,14 +16,11 @@ namespace Contexts.Main.View.GameManager
     
     [Inject]
     public IMainModel mainModel { get; set; }
-
+    
     public override void OnRegister()
     {
       dispatcher.AddListener(MainEvent.GetBulletPool, OnGetBulletPool);
-    }
-
-    private void Start()
-    {
+      
       Init();
     }
 
@@ -29,7 +28,6 @@ namespace Contexts.Main.View.GameManager
     {
       mainModel.StartGame();
       
-      CreateObjectFromAddressable(AddressableKey.ObstacleFactory);
       CreateObjectFromAddressable(AddressableKey.Player);
     }
 
@@ -41,6 +39,7 @@ namespace Contexts.Main.View.GameManager
         {
           GameObject instance = handle.Result;
           instance.transform.parent = transform.parent;
+          view.SetPlayer(instance.transform);
         }
         else
         {
@@ -51,7 +50,12 @@ namespace Contexts.Main.View.GameManager
 
     private void OnGetBulletPool()
     {
-      dispatcher.Dispatch(MainEvent.ReturnBulletPool, view.BulletPool);
+      ShootVo shootVo = new()
+      {
+        BulletPool = view.BulletPool,
+        ParticlePoolManagerBehaviour = view.ParticlePoolManagerBehaviour
+      };
+      dispatcher.Dispatch(MainEvent.ReturnBulletPool, shootVo);
     }
 
     public override void OnRemove()
