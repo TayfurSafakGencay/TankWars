@@ -6,8 +6,11 @@ namespace Contexts.Main.View.Panel
 {
   public class MainScreenPanelView : EventView
   {
-    public GameObject CoinImage;
-
     public TextMeshProUGUI CoinText;
+
+    public TextMeshProUGUI FPSText;
+
+    [HideInInspector]
+    public float fps;
   }
 }

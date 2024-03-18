@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6071159795874052584}
   m_Layer: 7
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -151,6 +151,7 @@ GameObject:
   - component: {fileID: 4491698486365767884}
   - component: {fileID: 4343490084639340412}
   - component: {fileID: 3900916454136033432}
+  - component: {fileID: -5410735480687547857}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -272,11 +273,12 @@ MonoBehaviour:
   Bullet: {fileID: 1506473569272289881, guid: 2dc01fd3e06bae846a0f50f0a2be53fd, type: 3}
   BulletsParent: {fileID: 0}
   MuzzleCannon: {fileID: 7421390190758947864}
-  BulletCount: 40
+  BulletCount: 80
   BulletPool: []
   Queue: 0
   ShootTime: 0.7
   RemainTimeToShoot: 0
+  ParticlePoolManagerBehaviour: {fileID: 0}
 --- !u!114 &3900916454136033432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,6 +304,18 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &-5410735480687547857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1272576685269526819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79af8d861fce4e849cb301b53728da29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1460641969852000500
 GameObject:
   m_ObjectHideFlags: 0

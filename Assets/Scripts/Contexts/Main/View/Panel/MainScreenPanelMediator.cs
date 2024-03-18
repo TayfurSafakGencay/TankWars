@@ -1,6 +1,8 @@
-﻿using Contexts.Main.Enum;
+﻿using System;
+using Contexts.Main.Enum;
 using Contexts.Main.Model;
 using strange.extensions.mediation.impl;
+using UnityEngine;
 
 namespace Contexts.Main.View.Panel
 {
@@ -17,9 +19,20 @@ namespace Contexts.Main.View.Panel
       dispatcher.AddListener(MainEvent.ObstacleDestroyed, OnObstacleDestroyed);
     }
 
+    private void Start()
+    {
+      InvokeRepeating(nameof(GetFPS), 1, 1);
+    }
+
     private void OnObstacleDestroyed()
     {
       view.CoinText.text = mainModel.GetCoin().ToString();
+    }
+
+    private void GetFPS()
+    {
+      view.fps = (int)(1f / Time.unscaledDeltaTime);
+      view.FPSText.text = "FPS: " + view.fps;
     }
 
 

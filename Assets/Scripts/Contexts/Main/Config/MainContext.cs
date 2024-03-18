@@ -1,6 +1,7 @@
 ﻿using Contexts.Main.Model;
 using Contexts.Main.View.CameraFollow;
 using Contexts.Main.View.GameManager;
+using Contexts.Main.View.Obstacle.EndStage;
 using Contexts.Main.View.Obstacle.Obstacle.ObstacleFactoryManager;
 using Contexts.Main.View.Obstacle.ObstacleCreator;
 using Contexts.Main.View.Panel;
@@ -28,11 +29,13 @@ namespace Contexts.Main.Config
 
       injectionBinder.Bind<IMainModel>().To<MainModel>().ToSingleton();
       
-      mediationBinder.Bind<TankControllerView>().To<TankControllerMediator>();
       mediationBinder.Bind<GameManagerView>().To<GameManagerMediator>();
       mediationBinder.Bind<CameraFollowView>().To<CameraFollowMediator>();
       mediationBinder.Bind<ObstacleCreatorView>().To<ObstacleCreatorMediator>();
       mediationBinder.Bind<ObstacleFactoryManagerView>().To<ObstacleFactoryManagerMediator>();
+      mediationBinder.Bind<EndStageView>().To<EndStageMediator>();
+      
+      mediationBinder.Bind<TankControllerView>().To<TankControllerMediator>();
       mediationBinder.Bind<ShootingView>().To<ShootingMediator>();
 
       mediationBinder.Bind<MainScreenPanelView>().To<MainScreenPanelMediator>();
